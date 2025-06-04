@@ -1,25 +1,32 @@
-// main.c
-// Desenvolvido para a placa EK-TM4C1294XL
-// Verifica o estado das chaves USR_SW1 e USR_SW2, acende os LEDs 1 e 2 caso estejam pressionadas independentemente
-// Caso as duas chaves estejam pressionadas ao mesmo tempo pisca os LEDs alternadamente a cada 500ms.
-// Prof. Guilherme Peron
-
+/*==================================================================================================================
+Autores: Otávio Pepe, Bruno Camargo e Alexandre Vinicius
+Descrição: Programa em C para controlar motor de passo através da placa EK-TM4C1294-XL.
+Data: 30/05/2025 
+1
+2
+3
+4
+5
+6
+7
+8
+==================================================================================================================*/
 #include <stdint.h>
-
-void PLL_Init(void);
-void SysTick_Init(void);
-void SysTick_Wait1ms(uint32_t delay);
-void SysTick_Wait1us(uint32_t delay);
-void GPIO_Init(void);
-uint32_t PortJ_Input(void);
-void PortN_Output(uint32_t leds);
-void Pisca_leds(void);
+#include "lcd.h"
+#include "assembly.h"
+#include "gpio.h"
 
 int main(void)
 {
 	PLL_Init();
 	SysTick_Init();
 	GPIO_Init();
+	
+	LCD_Init();
+  WriteWord_LCD("Oi!");
+  while (1);
+	
+	/*
 	while (1)
 	{
     //Se a USR_SW2 estiver pressionada
@@ -35,12 +42,13 @@ int main(void)
 		else if (PortJ_Input() == 0x3)
 			PortN_Output(0x0);        
 	}
+	*/
 }
 
-void Pisca_leds(void)
+/*void Pisca_leds(void)
 {
 	PortN_Output(0x2);
 	SysTick_Wait1ms(250);
 	PortN_Output(0x1);
 	SysTick_Wait1ms(250);
-}
+}*/
