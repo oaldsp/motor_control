@@ -29,7 +29,7 @@ void GPIO_Init(void)
 	//GPIO_PORTJ_AHB_DIR_R = 0x00;
 	//GPIO_PORTN_DIR_R = 0x03; //BIT0 | BIT1
 	GPIO_PORTK_DIR_R	 = 0xFF; //PK0-PK7
-  GPIO_PORTM_AFSEL_R = 0x07; //PM0-PM3
+  GPIO_PORTM_DIR_R = 0x07; //PM0-PM3
 		
 	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
 	//GPIO_PORTJ_AHB_AFSEL_R = 0x00;
@@ -93,7 +93,7 @@ void PortM_Output(uint8_t valor)
 ==================================================================================================================*/
 uint32_t Return_PortM()
 {
-	return GPIO_PORTN_DATA_R; 
+	return GPIO_PORTM_DATA_R; 
 }
 
 

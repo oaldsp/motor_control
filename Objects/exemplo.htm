@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\exemplo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\exemplo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jun 04 02:27:36 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jun 04 03:41:13 2025
 <BR><P>
-<H3>Maximum Stack Usage =         48 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =         40 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-__rt_entry_main &rArr; main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+__rt_entry_main &rArr; main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 <P>
 <H3>
 Functions with no stack information
@@ -627,8 +627,8 @@ Global Symbols
 <P><STRONG><a name="[b0]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[78]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -678,6 +678,7 @@ Global Symbols
 
 <P><STRONG><a name="[85]"></a>SysTick_Wait1us</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, utils.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Enable_LCD
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
 
 <P><STRONG><a name="[b8]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
@@ -729,32 +730,43 @@ Global Symbols
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortM_Output
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Wait1us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData4_LCD
+<BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
 </UL>
 
 <P><STRONG><a name="[bf]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[8f]"></a>GPIO_Init</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, gpio.o(i.GPIO_Init))
+<P><STRONG><a name="[8f]"></a>GPIO_Init</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, gpio.o(i.GPIO_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[86]"></a>LCD_Init</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, lcd.o(i.LCD_Init))
+<P><STRONG><a name="[86]"></a>LCD_Init</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, lcd.o(i.LCD_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
-<LI>Call Chain = LCD_Init &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+<LI>Call Chain = LCD_Init &rArr; MoveCursor_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 </UL>
-<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData8_LCD
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData4_LCD
+<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MoveCursor_LCD
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Wait1us
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Wait1ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
+<P><STRONG><a name="[89]"></a>MoveCursor_LCD</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, lcd.o(i.MoveCursor_LCD))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32 + Unknown Stack Size
+<LI>Call Chain = MoveCursor_LCD &rArr; SendData_LCD &rArr; Enable_LCD
+</UL>
+<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteWord_LCD
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+
 <P><STRONG><a name="[8a]"></a>PortK_Output</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, gpio.o(i.PortK_Output))
-<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData4_LCD
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
 </UL>
 
 <P><STRONG><a name="[84]"></a>PortM_Output</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, gpio.o(i.PortM_Output))
-<BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData8_LCD
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Enable_LCD
 </UL>
 
@@ -762,49 +774,41 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Enable_LCD
 </UL>
 
-<P><STRONG><a name="[88]"></a>SendData4_LCD</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, lcd.o(i.SendData4_LCD))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
-<LI>Call Chain = SendData4_LCD &rArr; Enable_LCD
+<P><STRONG><a name="[88]"></a>SendData_LCD</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, lcd.o(i.SendData_LCD))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = SendData_LCD &rArr; Enable_LCD
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Enable_LCD
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortM_Output
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortK_Output
 </UL>
-<BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData8_LCD
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
-</UL>
-
-<P><STRONG><a name="[89]"></a>SendData8_LCD</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, lcd.o(i.SendData8_LCD))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32 + Unknown Stack Size
-<LI>Call Chain = SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
-</UL>
-<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData4_LCD
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortM_Output
-</UL>
 <BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLetter_LCD
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MoveCursor_LCD
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
 
 <P><STRONG><a name="[8b]"></a>WriteLetter_LCD</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, lcd.o(i.WriteLetter_LCD))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
-<LI>Call Chain = WriteLetter_LCD &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+<BR><BR>[Stack]<UL><LI>Max Depth = 32 + Unknown Stack Size
+<LI>Call Chain = WriteLetter_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 </UL>
-<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData8_LCD
+<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendData_LCD
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteWord_LCD
 </UL>
 
-<P><STRONG><a name="[8c]"></a>WriteWord_LCD</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, lcd.o(i.WriteWord_LCD))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+<P><STRONG><a name="[8c]"></a>WriteWord_LCD</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, lcd.o(i.WriteWord_LCD))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLetter_LCD
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MoveCursor_LCD
 </UL>
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[79]"></a>main</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData8_LCD &rArr; SendData4_LCD &rArr; Enable_LCD
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = main &rArr; WriteWord_LCD &rArr; WriteLetter_LCD &rArr; SendData_LCD &rArr; Enable_LCD
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteWord_LCD
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
