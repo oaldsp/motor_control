@@ -4,3 +4,4 @@
 .\objects\main.o: assembly.h
 .\objects\main.o: gpio.h
 .\objects\main.o: keyboard.h
+.\objects\main.o: controller.h

@@ -14,8 +14,8 @@ void LCD_Init(){
 		
 	SendData_LCD(0x0C,0);// 0x0C = liga o display, sem cursor, sem blink
   MoveCursor_LCD();
-  SendData_LCD(0x01,0);// 0x01 = limpa display
-	SysTick_Wait1ms(2);
+  clearDisplay();
+	SysTick_Wait1ms(20);
 }
 
 void Enable_LCD(){
@@ -36,7 +36,7 @@ void SendData_LCD(uint8_t data, uint8_t rs){
 }
 
 void WriteWord_LCD(const char* w){
-	while(*w){
+	while(*w != '\0'){
 		WriteLetter_LCD(*w++);
 	}
 }
@@ -45,9 +45,20 @@ void WriteLetter_LCD(char c){
 	SendData_LCD(c, 1);
 	MoveCursor_LCD();
 }
+
+void clearDisplay(){
+	SysTick_Wait1ms(100);
+	SendData_LCD(0x01,0);
+	SysTick_Wait1ms(100);
+}
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO
 ==================================================================================================================*/
 void MoveCursor_LCD(){
 	SendData_LCD(0x06,0);
 }
+
+void SkipLine(){
+	SendData_LCD(0xC0,0);
+}
+

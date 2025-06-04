@@ -9,13 +9,13 @@ Data: 30/05/2025
 5
 6
 7
-8
 ==================================================================================================================*/
 #include <stdint.h>
 #include "lcd.h"
 #include "assembly.h"
 #include "gpio.h"
 #include "keyboard.h"
+#include "controller.h"
 
 int main(void)
 {
@@ -24,34 +24,15 @@ int main(void)
 	GPIO_Init();
 	
 	LCD_Init();
-  while (1){
-		WriteLetter_LCD(GetKey());
-		SysTick_Wait1ms(5000);
+  	
+	char degress[3] = {'\0','\0','\0'};
+	char rotation = '\0';
+	char speed = '\0';   	
+	
+	GetInitialInformation(degress, &rotation, &speed);	
+	ShowStatus(degress, &rotation, &speed);
+	
+	while (1){
 	}
 	
-	/*
-	while (1)
-	{
-    //Se a USR_SW2 estiver pressionada
-		if (PortJ_Input() == 0x1)
-			PortN_Output(0x1);
-    //Se a USR_SW1 estiver pressionada
-		else if (PortJ_Input() == 0x2)
-			PortN_Output(0x2);
-    //Se ambas estiverem pressionadas
-		else if (PortJ_Input() == 0x0)
-			Pisca_leds();
-    //Se nenhuma estiver pressionada
-		else if (PortJ_Input() == 0x3)
-			PortN_Output(0x0);        
-	}
-	*/
 }
-
-/*void Pisca_leds(void)
-{
-	PortN_Output(0x2);
-	SysTick_Wait1ms(250);
-	PortN_Output(0x1);
-	SysTick_Wait1ms(250);
-}*/

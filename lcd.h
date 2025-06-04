@@ -9,5 +9,7 @@ void Enable_LCD(void);
 void WriteLetter_LCD(char c);
 void WriteWord_LCD(const char* w);
 void MoveCursor_LCD(void);
+void clearDisplay(void);
+void SkipLine(void);
 
 #endif
