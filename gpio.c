@@ -1,51 +1,50 @@
 #include "tm4c1294ncpdt.h"
 #include "gpio.h"
+#include "assembly.h"
 
-//#define GPIO_PORTJ  (0x0100) //bit 8
-//#define GPIO_PORTN  (0x1000) //bit 12
 #define GPIO_PORTK  (1 << 9) //bit 9
+#define GPIO_PORTL  (1 << 10) //bit 10
 #define GPIO_PORTM  (1 << 11) //bit 11
 
 void GPIO_Init(void)
 {
 	//1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (/*GPIO_PORTJ | GPIO_PORTN*/ GPIO_PORTK | GPIO_PORTM);
+	SYSCTL_RCGCGPIO_R = (/*GPIO_PORTJ | GPIO_PORTN*/ GPIO_PORTK | GPIO_PORTL | GPIO_PORTM);
 	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
-  while((SYSCTL_PRGPIO_R & (/*GPIO_PORTJ | GPIO_PORTN*/GPIO_PORTK | GPIO_PORTM) ) != (/*GPIO_PORTJ | GPIO_PORTN*/GPIO_PORTK | GPIO_PORTM) ){};
+  while((SYSCTL_PRGPIO_R & (GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ) != (GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ){};
 	
 	// 2. Limpar o AMSEL para desabilitar a analógica
-	//GPIO_PORTJ_AHB_AMSEL_R = 0x00;
-	//GPIO_PORTN_AMSEL_R = 0x00;
 	GPIO_PORTK_AMSEL_R = 0x00;
+	GPIO_PORTL_AMSEL_R = 0x00;
 	GPIO_PORTM_AMSEL_R = 0x00;
 		
 	// 3. Limpar PCTL para selecionar o GPIO
-	//GPIO_PORTJ_AHB_PCTL_R = 0x00;
-	//GPIO_PORTN_PCTL_R = 0x00;
 	GPIO_PORTK_PCTL_R = 0x00; //PK0-PK7
+	GPIO_PORTL_PCTL_R = 0x00;
 	GPIO_PORTM_PCTL_R = 0x00;
 		
 	// 4. DIR para 0 se for entrada, 1 se for saída
 	//GPIO_PORTJ_AHB_DIR_R = 0x00;
 	//GPIO_PORTN_DIR_R = 0x03; //BIT0 | BIT1
-	GPIO_PORTK_DIR_R	 = 0xFF; //PK0-PK7
-  GPIO_PORTM_DIR_R = 0x07; //PM0-PM3
+	GPIO_PORTK_DIR_R = 0xFF; //PK0-PK7
+  GPIO_PORTL_DIR_R = 0x00;
+	GPIO_PORTM_DIR_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
 		
 	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
-	//GPIO_PORTJ_AHB_AFSEL_R = 0x00;
-	//GPIO_PORTN_AFSEL_R = 0x00; 
 	GPIO_PORTK_AFSEL_R = 0x00;
+	GPIO_PORTL_AFSEL_R = 0x00;
 	GPIO_PORTM_AFSEL_R = 0x00;
 	
 	// 6. Setar os bits de DEN para habilitar I/O digital	
 	//GPIO_PORTJ_AHB_DEN_R = 0x03;   //Bit0 e bit1
 	//GPIO_PORTN_DEN_R = 0x03; 		   //Bit0 e bit1
 	GPIO_PORTK_DEN_R = 0xFF; //PK0-PK7
-	GPIO_PORTM_DEN_R = 0x07;
+	GPIO_PORTL_DEN_R = 0xFF;
+	GPIO_PORTM_DEN_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
 	
 	// 7. Habilitar resistor de pull-up interno, setar PUR para 1
-	//GPIO_PORTJ_AHB_PUR_R = 0x03;   //Bit0 e bit1	
-
+	//GPIO_PORTJ_AHB_PUR_R = 0x03;   //Bit0 e bit1
+	GPIO_PORTL_PUR_R = 0xFF;
 }	
 
 /*==================================================================================================================
@@ -55,7 +54,10 @@ void GPIO_Init(void)
 {
 	return GPIO_PORTJ_AHB_DATA_R;
 }*/
-
+uint32_t PortL_Input(void)
+{
+	return GPIO_PORTL_DATA_R;
+}
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO DE SAIDA PARA AS PORTAS	
 ==================================================================================================================*/
@@ -75,7 +77,7 @@ void PortK_Output(uint8_t valor)
 	GPIO_PORTK_DATA_R = valor; 
 }
 
-void PortM_Output(uint8_t valor)
+void PortM_Output_LCD(uint8_t value)
 {
 	/*
 		PM0	-> RS
@@ -85,16 +87,37 @@ void PortM_Output(uint8_t valor)
 	uint32_t temp;
 	temp = GPIO_PORTM_DATA_R & 0xF8;
 	//agora vamos fazer o OR com o valor recebido na função
-	temp = temp | valor;
+	temp = temp | value;
 	GPIO_PORTM_DATA_R = temp; 
 }
+
+void PortM_Output_Keyboard(uint8_t value)
+{
+	GPIO_PORTM_DATA_R = (GPIO_PORTM_DATA_R & 0x0F) | (value & 0xF0);
+}
+
+
+
+void SetOneExitM(uint8_t offset){
+		uint8_t considered_bit = 0x10 << offset;
+	
+		GPIO_PORTM_DIR_R &= 0x0F;//Coloca colunas em Alta impedancia com 0
+		SysTick_Wait1ms(1);
+		
+		GPIO_PORTM_DIR_R |= considered_bit;//Tira uma coluna de Alta impedancia colocando 1(Saida)(HABILITO UMA SAIDA)
+		PortM_Output_Keyboard(Return_PortM() & ~considered_bit);
+		SysTick_Wait1ms(1);
+}
+
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO DE RETURN PARA DEFINES 
 ==================================================================================================================*/
 uint32_t Return_PortM()
 {
-	return GPIO_PORTM_DATA_R; 
+	return GPIO_PORTM_DATA_R /*& 0x07*/; 
 }
 
-
-
+uint32_t Return_PortL()
+{
+	return GPIO_PORTL_DATA_R; 
+}

@@ -1,5 +1,5 @@
-#include "lcd.h"
 #include "gpio.h"
+#include "lcd.h"
 #include "assembly.h"
 
 void LCD_Init(){
@@ -19,9 +19,9 @@ void LCD_Init(){
 }
 
 void Enable_LCD(){
-	PortM_Output(Return_PortM() | 0x04);//Enable ON
+	PortM_Output_LCD(Return_PortM() | 0x04);//Enable ON
 	SysTick_Wait1us(20);
-	PortM_Output(Return_PortM() & ~0x04);////Enable OFF
+	PortM_Output_LCD(Return_PortM() & ~0x04);////Enable OFF
 	SysTick_Wait1us(200);
 }
 
@@ -30,7 +30,7 @@ void SendData_LCD(uint8_t data, uint8_t rs){
 		RS = 0 -> INTRUCAO
 		RS = 1 -> DADO
 	*/
-	PortM_Output(rs);//set RS e RW =  0
+	PortM_Output_LCD(rs);//set RS e RW =  0
 	PortK_Output(data);
 	Enable_LCD();
 }
@@ -38,16 +38,16 @@ void SendData_LCD(uint8_t data, uint8_t rs){
 void WriteWord_LCD(const char* w){
 	while(*w){
 		WriteLetter_LCD(*w++);
-		MoveCursor_LCD();
 	}
+}
+
+void WriteLetter_LCD(char c){
+	SendData_LCD(c, 1);
+	MoveCursor_LCD();
 }
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO
 ==================================================================================================================*/
-void WriteLetter_LCD(char c){
-	SendData_LCD(c, 1);
-}
-
 void MoveCursor_LCD(){
 	SendData_LCD(0x06,0);
 }

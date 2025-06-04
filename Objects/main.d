@@ -3,3 +3,4 @@
 .\objects\main.o: lcd.h
 .\objects\main.o: assembly.h
 .\objects\main.o: gpio.h
+.\objects\main.o: keyboard.h

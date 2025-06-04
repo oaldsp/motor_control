@@ -429,6 +429,16 @@
               <FileType>5</FileType>
               <FilePath>.\gpio.h</FilePath>
             </File>
+            <File>
+              <FileName>keyboard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\keyboard.c</FilePath>
+            </File>
+            <File>
+              <FileName>keyboard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\keyboard.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

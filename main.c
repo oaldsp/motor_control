@@ -15,6 +15,7 @@ Data: 30/05/2025
 #include "lcd.h"
 #include "assembly.h"
 #include "gpio.h"
+#include "keyboard.h"
 
 int main(void)
 {
@@ -23,8 +24,10 @@ int main(void)
 	GPIO_Init();
 	
 	LCD_Init();
-  WriteWord_LCD("Oi!");
-  while (1);
+  while (1){
+		WriteLetter_LCD(GetKey());
+		SysTick_Wait1ms(5000);
+	}
 	
 	/*
 	while (1)
