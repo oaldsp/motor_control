@@ -11,5 +11,6 @@ uint32_t Return_PortM(void);
 uint32_t PortL_Input(void);
 void SetOneExitM(uint8_t offset);
 uint32_t Return_PortL(void);
+void PortH_Output(uint8_t valor);
 
 #endif

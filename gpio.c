@@ -2,6 +2,19 @@
 #include "gpio.h"
 #include "assembly.h"
 
+/*==================================================================================================================
+		DEFINES DA PORTA H
+==================================================================================================================*/
+#define GPIO_PORTH_BASE     0x4005F000
+#define GPIO_PORTH_AMSEL_R  (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x528)))
+#define GPIO_PORTH_PCTL_R   (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x52C)))
+#define GPIO_PORTH_DIR_R    (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x400)))
+#define GPIO_PORTH_AFSEL_R 	(*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x420)))
+#define GPIO_PORTH_DEN_R    (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x51C)))
+#define GPIO_PORTH_DATA_R   (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x3FC)))
+/*================================================================================================================*/
+
+#define GPIO_PORTH  (1 << 7) //bit 7 
 #define GPIO_PORTK  (1 << 9) //bit 9
 #define GPIO_PORTL  (1 << 10) //bit 10
 #define GPIO_PORTM  (1 << 11) //bit 11
@@ -9,16 +22,18 @@
 void GPIO_Init(void)
 {
 	//1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (/*GPIO_PORTJ | GPIO_PORTN*/ GPIO_PORTK | GPIO_PORTL | GPIO_PORTM);
+	SYSCTL_RCGCGPIO_R = (/*GPIO_PORTJ | GPIO_PORTN*/ GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM);
 	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
-  while((SYSCTL_PRGPIO_R & (GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ) != (GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ){};
+  while((SYSCTL_PRGPIO_R & (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ) != (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ){};
 	
 	// 2. Limpar o AMSEL para desabilitar a analógica
+	GPIO_PORTH_AMSEL_R = 0x00; 
 	GPIO_PORTK_AMSEL_R = 0x00;
 	GPIO_PORTL_AMSEL_R = 0x00;
 	GPIO_PORTM_AMSEL_R = 0x00;
 		
 	// 3. Limpar PCTL para selecionar o GPIO
+	GPIO_PORTH_PCTL_R	= 0x00;
 	GPIO_PORTK_PCTL_R = 0x00; //PK0-PK7
 	GPIO_PORTL_PCTL_R = 0x00;
 	GPIO_PORTM_PCTL_R = 0x00;
@@ -26,11 +41,13 @@ void GPIO_Init(void)
 	// 4. DIR para 0 se for entrada, 1 se for saída
 	//GPIO_PORTJ_AHB_DIR_R = 0x00;
 	//GPIO_PORTN_DIR_R = 0x03; //BIT0 | BIT1
+	GPIO_PORTH_DIR_R = 0xFF;
 	GPIO_PORTK_DIR_R = 0xFF; //PK0-PK7
   GPIO_PORTL_DIR_R = 0x00;
 	GPIO_PORTM_DIR_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
 		
 	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
+	GPIO_PORTH_AFSEL_R = 0x00;
 	GPIO_PORTK_AFSEL_R = 0x00;
 	GPIO_PORTL_AFSEL_R = 0x00;
 	GPIO_PORTM_AFSEL_R = 0x00;
@@ -38,6 +55,7 @@ void GPIO_Init(void)
 	// 6. Setar os bits de DEN para habilitar I/O digital	
 	//GPIO_PORTJ_AHB_DEN_R = 0x03;   //Bit0 e bit1
 	//GPIO_PORTN_DEN_R = 0x03; 		   //Bit0 e bit1
+	GPIO_PORTH_DEN_R = 0xFF;
 	GPIO_PORTK_DEN_R = 0xFF; //PK0-PK7
 	GPIO_PORTL_DEN_R = 0xFF;
 	GPIO_PORTM_DEN_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
@@ -77,6 +95,12 @@ void PortK_Output(uint8_t valor)
 	GPIO_PORTK_DATA_R = valor; 
 }
 
+void PortH_Output(uint8_t valor)
+{
+	GPIO_PORTH_DATA_R = valor; 
+}
+
+
 void PortM_Output_LCD(uint8_t value)
 {
 	/*
@@ -95,8 +119,6 @@ void PortM_Output_Keyboard(uint8_t value)
 {
 	GPIO_PORTM_DATA_R = (GPIO_PORTM_DATA_R & 0x0F) | (value & 0xF0);
 }
-
-
 
 void SetOneExitM(uint8_t offset){
 		uint8_t considered_bit = 0x10 << offset;
