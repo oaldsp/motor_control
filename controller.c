@@ -29,7 +29,7 @@ void GetDegress(char* degress){
 }
 
 void GetRotation(char* rotation){
-	char rotation_description[] = {'A','-','H','o',' ',' ','B','-','A','H','o','\0'};
+	char rotation_description[] = {'A','-','C','w',' ',' ','B','-','A','C','w','\0'};
 	WriteWord_LCD(rotation_description);
 	
 	SkipLine();
@@ -44,7 +44,7 @@ void GetRotation(char* rotation){
 }
 
 void GetSpeed(char* speed){
-	char speed_description[] = {'A','-','P','C',' ',' ','B','-','M','P','\0'};
+	char speed_description[] = {'A','-','C','S',' ',' ','B','-','H','S','\0'};
 	WriteWord_LCD(speed_description);
 	
 	SkipLine();
@@ -76,10 +76,10 @@ void ShowStatus(char* degress, char* rotation, char* speed){
 
 void ShowRotation(char* rotation, char* error){
 	if  (*rotation == 'A'){
-		char clockwise[] = {'R','o',':',' ','H','o',' ',' ','\0'};
+		char clockwise[] = {'R','o',':',' ','C','w',' ',' ','\0'};
 		WriteWord_LCD(clockwise);
 	}else if (*rotation == 'B'){
-		char counterclockwise[] = {'R','o',':',' ','A','H','o',' ',' ','\0'};
+		char counterclockwise[] = {'R','o',':',' ','A','C','w',' ',' ','\0'};
 		WriteWord_LCD(counterclockwise);
 	}else{
 		WriteWord_LCD(error);
@@ -88,10 +88,10 @@ void ShowRotation(char* rotation, char* error){
 
 void ShowSpeed(char* speed, char* error){
 	if  (*speed == 'A'){
-		char full_step[] = {'S','p',':',' ','P','C','\0'};
+		char full_step[] = {'S','p',':',' ','C','s','\0'};
 		WriteWord_LCD(full_step);
 	}else if (*speed == 'B'){
-		char half_step[] = {'S','p',':',' ','M','C','\0'};
+		char half_step[] = {'S','p',':',' ','M','s','\0'};
 		WriteWord_LCD(half_step);
 	}else{
 		WriteWord_LCD(error);

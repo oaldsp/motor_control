@@ -5,3 +5,4 @@
 .\objects\main.o: gpio.h
 .\objects\main.o: keyboard.h
 .\objects\main.o: controller.h
+.\objects\main.o: motor.h

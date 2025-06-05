@@ -2,24 +2,25 @@ Dependencies for Project 'exemplo', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (.\startup.s)(0x645A384F)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129--pd "__UVISION_VERSION SETA 542" --pd "TM4C1294NCPDT SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
 F (.\utils.s)(0x6841B94E)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129--pd "__UVISION_VERSION SETA 542" --pd "TM4C1294NCPDT SETA 1"--list .\listings\utils.lst --xref -o .\objects\utils.o --depend .\objects\utils.d)
-F (.\main.c)(0x684189FB)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x68419B10)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
-I (lcd.h)(0x6841B948)
+I (lcd.h)(0x68418C48)
 I (assembly.h)(0x683FF6B9)
 I (gpio.h)(0x6841B94A)
 I (keyboard.h)(0x6841B94C)
 I (controller.h)(0x6841B94E)
+I (motor.h)(0x68418F30)
 F (.\tm4c1294ncpdt.h)(0x684132BC)()
 F (.\gpio.c)(0x6841B94A)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\gpio.o --omf_browse .\objects\gpio.crf --depend .\objects\gpio.d)
 I (tm4c1294ncpdt.h)(0x684132BC)
 I (gpio.h)(0x6841B94A)
 I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
 I (assembly.h)(0x683FF6B9)
-F (.\lcd.h)(0x6841B948)()
+F (.\lcd.h)(0x68418C48)()
 F (.\lcd.c)(0x6841B948)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\lcd.o --omf_browse .\objects\lcd.crf --depend .\objects\lcd.d)
 I (gpio.h)(0x6841B94A)
 I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
-I (lcd.h)(0x6841B948)
+I (lcd.h)(0x68418C48)
 I (assembly.h)(0x683FF6B9)
 F (.\assembly.h)(0x683FF6B9)()
 F (.\gpio.h)(0x6841B94A)()
@@ -29,10 +30,18 @@ I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
 I (gpio.h)(0x6841B94A)
 I (assembly.h)(0x683FF6B9)
 F (.\keyboard.h)(0x6841B94C)()
-F (.\controller.c)(0x6841B94C)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\controller.o --omf_browse .\objects\controller.crf --depend .\objects\controller.d)
+F (.\controller.c)(0x6841984D)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\controller.o --omf_browse .\objects\controller.crf --depend .\objects\controller.d)
 I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
 I (controller.h)(0x6841B94E)
 I (keyboard.h)(0x6841B94C)
-I (lcd.h)(0x6841B948)
+I (lcd.h)(0x68418C48)
 I (assembly.h)(0x683FF6B9)
 F (.\controller.h)(0x6841B94E)()
+F (.\motor.c)(0x68419B22)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Users\otavi\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-D__UVISION_VERSION="542" -DTM4C1294NCPDT-o .\objects\motor.o --omf_browse .\objects\motor.crf --depend .\objects\motor.d)
+I (C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025E85E)
+I (motor.h)(0x68418F30)
+I (gpio.h)(0x6841B94A)
+I (controller.h)(0x6841B94E)
+I (assembly.h)(0x683FF6B9)
+I (lcd.h)(0x68418C48)
+F (.\motor.h)(0x68418F30)()

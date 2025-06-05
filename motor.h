@@ -3,4 +3,6 @@
 
 #include <stdint.h>
 
+void MoveMotor(char* degress, char* rotation, char* speed);
+
 #endif
