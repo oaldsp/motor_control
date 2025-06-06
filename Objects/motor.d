@@ -1,4 +1,6 @@
 .\objects\motor.o: motor.c
+.\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor.o: motor.h
 .\objects\motor.o: gpio.h

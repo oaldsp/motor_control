@@ -22,7 +22,7 @@
 void GPIO_Init(void)
 {
 	//1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (/*GPIO_PORTJ | GPIO_PORTN*/ GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM);
+	SYSCTL_RCGCGPIO_R = (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM);
 	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
   while((SYSCTL_PRGPIO_R & (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ) != (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ){};
 	
@@ -39,8 +39,6 @@ void GPIO_Init(void)
 	GPIO_PORTM_PCTL_R = 0x00;
 		
 	// 4. DIR para 0 se for entrada, 1 se for saída
-	//GPIO_PORTJ_AHB_DIR_R = 0x00;
-	//GPIO_PORTN_DIR_R = 0x03; //BIT0 | BIT1
 	GPIO_PORTH_DIR_R = 0xFF;
 	GPIO_PORTK_DIR_R = 0xFF; //PK0-PK7
   GPIO_PORTL_DIR_R = 0x00;
@@ -53,55 +51,38 @@ void GPIO_Init(void)
 	GPIO_PORTM_AFSEL_R = 0x00;
 	
 	// 6. Setar os bits de DEN para habilitar I/O digital	
-	//GPIO_PORTJ_AHB_DEN_R = 0x03;   //Bit0 e bit1
-	//GPIO_PORTN_DEN_R = 0x03; 		   //Bit0 e bit1
 	GPIO_PORTH_DEN_R = 0xFF;
 	GPIO_PORTK_DEN_R = 0xFF; //PK0-PK7
 	GPIO_PORTL_DEN_R = 0xFF;
 	GPIO_PORTM_DEN_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
 	
 	// 7. Habilitar resistor de pull-up interno, setar PUR para 1
-	//GPIO_PORTJ_AHB_PUR_R = 0x03;   //Bit0 e bit1
 	GPIO_PORTL_PUR_R = 0xFF;
 }	
 
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO DE ENTRADA PARA AS PORTAS	
 ==================================================================================================================*/
-/*uint32_t PortJ_Input(void)
-{
-	return GPIO_PORTJ_AHB_DATA_R;
-}*/
 uint32_t PortL_Input(void)
 {
 	return GPIO_PORTL_DATA_R;
 }
+
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO DE SAIDA PARA AS PORTAS	
 ==================================================================================================================*/
-/*void PortN_Output(uint32_t valor)
-{
-    uint32_t temp;
-    //vamos zerar somente os bits menos significativos
-    //para uma escrita amigável nos bits 0 e 1
-    temp = GPIO_PORTN_DATA_R & 0xFC;
-    //agora vamos fazer o OR com o valor recebido na função
-    temp = temp | valor;
-    GPIO_PORTN_DATA_R = temp; 
-}*/
-
-void PortK_Output(uint8_t valor)
+void PortK_Output(uint32_t valor)
 {
 	GPIO_PORTK_DATA_R = valor; 
 }
 
-void PortH_Output(uint8_t valor)
+void PortH_Output(uint32_t valor)
 {
 	GPIO_PORTH_DATA_R = valor; 
 }
 
 
-void PortM_Output_LCD(uint8_t value)
+void PortM_Output_LCD(uint32_t value)
 {
 	/*
 		PM0	-> RS
@@ -115,12 +96,12 @@ void PortM_Output_LCD(uint8_t value)
 	GPIO_PORTM_DATA_R = temp; 
 }
 
-void PortM_Output_Keyboard(uint8_t value)
+void PortM_Output_Keyboard(uint32_t value)
 {
 	GPIO_PORTM_DATA_R = (GPIO_PORTM_DATA_R & 0x0F) | (value & 0xF0);
 }
 
-void SetOneExitM(uint8_t offset){
+void SetOneExitM(uint32_t offset){
 		uint8_t considered_bit = 0x10 << offset;
 	
 		GPIO_PORTM_DIR_R &= 0x0F;//Coloca colunas em Alta impedancia com 0

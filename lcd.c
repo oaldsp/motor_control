@@ -35,13 +35,13 @@ void SendData_LCD(uint8_t data, uint8_t rs){
 	Enable_LCD();
 }
 
-void WriteWord_LCD(const char* w){
+void WriteWord_LCD(const uint8_t* w){
 	while(*w != '\0'){
 		WriteLetter_LCD(*w++);
 	}
 }
 
-void WriteLetter_LCD(char c){
+void WriteLetter_LCD(uint8_t c){
 	SendData_LCD(c, 1);
 	MoveCursor_LCD();
 }

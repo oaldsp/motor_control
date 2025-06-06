@@ -4,7 +4,7 @@
 #include "lcd.h"
 #include "assembly.h"
 
-void GetInitialInformation(char* degress, char* rotation, char* speed){
+void GetInitialInformation(uint8_t* degress, uint8_t* rotation, uint8_t* speed){
 	GetDegress(degress);
 	clearDisplay();
 	GetRotation(rotation);
@@ -13,11 +13,11 @@ void GetInitialInformation(char* degress, char* rotation, char* speed){
 	clearDisplay();
 }
 
-void GetDegress(char* degress){
-	char degress_question[] = {'D','e','g','r','e','s','s',':',' ','\0'};
+void GetDegress(uint8_t* degress){
+	uint8_t degress_question[] = {'D','e','g','r','e','s','s',':',' ','\0'};
 	WriteWord_LCD(degress_question);
 	
-	for(int cont = 0; cont < 3; cont++){
+	for(uint16_t cont = 0; cont < 3; cont++){
 		while(degress[cont] == '\0'){
 			degress[cont] = GetKey();
 		}
@@ -28,13 +28,13 @@ void GetDegress(char* degress){
 	}
 }
 
-void GetRotation(char* rotation){
-	char rotation_description[] = {'A','-','C','w',' ',' ','B','-','A','C','w','\0'};
+void GetRotation(uint8_t* rotation){
+	uint8_t rotation_description[] = {'A','-','C','w',' ',' ','B','-','A','C','w','\0'};
 	WriteWord_LCD(rotation_description);
 	
 	SkipLine();
 	
-	char rotation_question[] = {'R','o','t','a','t','i','o','n',':',' ','\0'};
+	uint8_t rotation_question[] = {'R','o','t','a','t','i','o','n',':',' ','\0'};
 	WriteWord_LCD(rotation_question);
 	
 	while(*rotation == '\0'){
@@ -43,13 +43,13 @@ void GetRotation(char* rotation){
 	WriteLetter_LCD(*rotation);
 }
 
-void GetSpeed(char* speed){
-	char speed_description[] = {'A','-','C','S',' ',' ','B','-','H','S','\0'};
+void GetSpeed(uint8_t* speed){
+	uint8_t speed_description[] = {'A','-','C','S',' ',' ','B','-','H','S','\0'};
 	WriteWord_LCD(speed_description);
 	
 	SkipLine();
 	
-	char speed_question[] = {'S','p','e','e','d',':',' ','\0'};
+	uint8_t speed_question[] = {'S','p','e','e','d',':',' ','\0'};
 	WriteWord_LCD(speed_question);
 	
 	while(*speed == '\0'){
@@ -58,8 +58,8 @@ void GetSpeed(char* speed){
 	WriteLetter_LCD(*speed);
 }
 
-void ShowStatus(char* degress, char* rotation, char* speed){
-	char error[] = {'E','r','r'};
+void ShowStatus(uint8_t* degress, uint8_t* rotation, uint8_t* speed){
+	uint8_t error[] = {'E','r','r'};
 	
 	clearDisplay();
 	
@@ -74,32 +74,40 @@ void ShowStatus(char* degress, char* rotation, char* speed){
 	SysTick_Wait1ms(50);
 }
 
-void ShowRotation(char* rotation, char* error){
+void ShowRotation(uint8_t* rotation, uint8_t* error){
 	if  (*rotation == 'A'){
-		char clockwise[] = {'R','o',':',' ','C','w',' ',' ','\0'};
+		uint8_t clockwise[] = {'R','o',':',' ','C','w',' ',' ','\0'};
 		WriteWord_LCD(clockwise);
 	}else if (*rotation == 'B'){
-		char counterclockwise[] = {'R','o',':',' ','A','C','w',' ',' ','\0'};
+		uint8_t counterclockwise[] = {'R','o',':',' ','A','C','w',' ',' ','\0'};
 		WriteWord_LCD(counterclockwise);
 	}else{
 		WriteWord_LCD(error);
 	}
 }
 
-void ShowSpeed(char* speed, char* error){
+void ShowSpeed(uint8_t* speed, uint8_t* error){
 	if  (*speed == 'A'){
-		char full_step[] = {'S','p',':',' ','C','s','\0'};
+		uint8_t full_step[] = {'S','p',':',' ','C','s','\0'};
 		WriteWord_LCD(full_step);
 	}else if (*speed == 'B'){
-		char half_step[] = {'S','p',':',' ','M','s','\0'};
+		uint8_t half_step[] = {'S','p',':',' ','M','s','\0'};
 		WriteWord_LCD(half_step);
 	}else{
 		WriteWord_LCD(error);
 	}
 }
 
-void ShowDegress(char* degress){
-	char degress_value[] = {'D','e','g','r','e','s','s',':',' ','\0'};
+void ShowDegress(uint8_t* degress){
+	uint8_t degress_value[] = {'D','e','g','r','e','s','s',':',' ','\0'};
 	WriteWord_LCD(degress_value);
 	WriteWord_LCD(degress);
+}
+
+void ResetInformation(uint8_t* degress, uint8_t* rotation, uint8_t* speed){
+	*rotation = '\0';
+	*speed = '\0';   	
+	for(uint16_t i = 0 ; i < 3;  i++){
+		degress[i] = '\0';
+	}
 }
