@@ -47,9 +47,9 @@ void WriteLetter_LCD(uint8_t c){
 }
 
 void clearDisplay(){
-	SysTick_Wait1ms(100);
+	SysTick_Wait1ms(2);
 	SendData_LCD(0x01,0);
-	SysTick_Wait1ms(100);
+	SysTick_Wait1ms(2);
 }
 /*==================================================================================================================
 		FUNCOES DE ABSTRACAO

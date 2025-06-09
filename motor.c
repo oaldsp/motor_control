@@ -8,6 +8,7 @@
 #include "controller.h"
 #include "assembly.h"
 #include "lcd.h"
+#include "leds.h"
 
 #define MOTOR_STEPS_PER_LAP 512 //Dadasheet
 
@@ -27,7 +28,13 @@ void MoveMotor(uint8_t* degress, uint8_t* rotation, uint8_t* speed){
 		sprintf((char*)degress,"%d", 15*i);
 		
 		ShowStatus(degress, rotation, speed);
-		if(i % 3 == 0){
+		if(i/3 <= 8 && i % 3 == 0){
+			if((step) > 0){
+				turn_on_int(8 - i/3);
+			}
+			else{
+				turn_on_int(i/3 - 1);
+			}
 		/*Multiplo de 45 graus*/
 			/*=============================
 				TODO - ACENDER LED AQUI

@@ -15,6 +15,7 @@ TODO - OQUE FALTA
 #include "keyboard.h"
 #include "controller.h"
 #include "motor.h"
+#include "leds.h"
 
 int main(void){
 	PLL_Init();
@@ -22,11 +23,13 @@ int main(void){
 	GPIO_Init();
 	
 	LCD_Init();	
+	enable_leds();
+	turn_off_all();
 	
 	uint8_t end[] = {'E','n','d'};
 	uint8_t degress[3] = {'\0','\0','\0'};
 	uint8_t rotation = '\0';
-	uint8_t speed = '\0';   	
+	uint8_t speed = '\0';  
 	
 	while (1){
 		GetInitialInformation(degress, &rotation, &speed);	
@@ -38,6 +41,7 @@ int main(void){
 			SysTick_Wait1ms(10);
 		}
 		clearDisplay();
+		turn_off_all();
 	}
 	
 }

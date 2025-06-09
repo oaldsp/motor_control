@@ -1,9 +1,2 @@
-.\objects\motor.o: motor.c
-.\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\motor.o: C:\Users\otavi\AppData\Local\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\motor.o: motor.h
-.\objects\motor.o: gpio.h
-.\objects\motor.o: controller.h
-.\objects\motor.o: assembly.h
-.\objects\motor.o: lcd.h
+./objects/motor.o: motor.c motor.h gpio.h controller.h assembly.h lcd.h \
+  leds.h

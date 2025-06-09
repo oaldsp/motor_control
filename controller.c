@@ -22,9 +22,9 @@ void GetDegress(uint8_t* degress){
 			degress[cont] = GetKey();
 		}
 		WriteLetter_LCD(degress[cont]);
-		while(GetKey() != '\0'){
-			SysTick_Wait1ms(10);
-		}
+		//while(GetKey() != '\0'){
+		//	SysTick_Wait1ms(10);
+		//}
 	}
 }
 
