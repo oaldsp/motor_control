@@ -16,12 +16,14 @@ TODO - OQUE FALTA
 #include "controller.h"
 #include "motor.h"
 #include "leds.h"
+#include "timer.h"
 
 int main(void){
 	PLL_Init();
 	SysTick_Init();
 	GPIO_Init();
 	
+	init_timer();
 	LCD_Init();	
 	enable_leds();
 	turn_off_all();
@@ -33,7 +35,9 @@ int main(void){
 	
 	while (1){
 		GetInitialInformation(degress, &rotation, &speed);	
+		start_counting();
 		MoveMotor(degress, &rotation, &speed);
+		stop_counting();
 		ResetInformation(degress,&rotation,&speed);
 		clearDisplay();
 		WriteWord_LCD(end);

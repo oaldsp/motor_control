@@ -15,8 +15,10 @@ void PortH_Output(uint32_t valor);
 void PortA_Output(uint32_t valor);
 void PortP_Output(uint32_t valor);
 void PortQ_Output(uint32_t valor);
+void PortN_Output(uint32_t valor);
 uint32_t Return_PortA();
 uint32_t Return_PortP();
 uint32_t Return_PortQ();
+uint32_t Return_PortN();
 
 #endif

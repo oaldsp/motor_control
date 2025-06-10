@@ -14,27 +14,30 @@
 #define GPIO_PORTH_DATA_R   (*((volatile uint32_t *)(GPIO_PORTH_BASE + 0x3FC)))
 /*================================================================================================================*/
 
-#define GPIO_PORTA  (1 << 0)  //bit 1
+#define GPIO_PORTA  (1 << 0)  //bit 0
 #define GPIO_PORTH  (1 << 7)  //bit 7 
 #define GPIO_PORTK  (1 << 9)  //bit 9
 #define GPIO_PORTL  (1 << 10) //bit 10
 #define GPIO_PORTM  (1 << 11) //bit 11
+#define GPIO_PORTN  (1 << 12) //bit 12
 #define GPIO_PORTP  (1 << 13) //bit 13
 #define GPIO_PORTQ  (1 << 14) //bit 14
 
 void GPIO_Init(void)
 {
 	//1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (GPIO_PORTA | GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM | GPIO_PORTP | GPIO_PORTQ);
+	SYSCTL_RCGCGPIO_R = (GPIO_PORTA | GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM | GPIO_PORTN | GPIO_PORTP | GPIO_PORTQ);
 	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
-  while((SYSCTL_PRGPIO_R & (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ) != (GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM) ){};
+  while((SYSCTL_PRGPIO_R & (GPIO_PORTA | GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM| GPIO_PORTN | GPIO_PORTP | GPIO_PORTQ)) != 
+				(GPIO_PORTA | GPIO_PORTH | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM| GPIO_PORTN | GPIO_PORTP | GPIO_PORTQ) ){};
 	
 	// 2. Limpar o AMSEL para desabilitar a analógica
 	GPIO_PORTA_AHB_AMSEL_R = 0x00; 
-	GPIO_PORTH_AMSEL_R = 0x00; 
+	GPIO_PORTH_AMSEL_R = 0x00;
 	GPIO_PORTK_AMSEL_R = 0x00;
 	GPIO_PORTL_AMSEL_R = 0x00;
 	GPIO_PORTM_AMSEL_R = 0x00;
+	GPIO_PORTN_AMSEL_R = 0x00;
 	GPIO_PORTP_AMSEL_R = 0x00;
 	GPIO_PORTQ_AMSEL_R = 0x00;
 		
@@ -44,6 +47,7 @@ void GPIO_Init(void)
 	GPIO_PORTK_PCTL_R = 0x00; //PK0-PK7
 	GPIO_PORTL_PCTL_R = 0x00;
 	GPIO_PORTM_PCTL_R = 0x00;
+	GPIO_PORTN_PCTL_R = 0x00;
 	GPIO_PORTP_PCTL_R = 0x00;
 	GPIO_PORTQ_PCTL_R = 0x00;
 		
@@ -53,6 +57,7 @@ void GPIO_Init(void)
 	GPIO_PORTK_DIR_R = 0xFF; //PK0-PK7
   GPIO_PORTL_DIR_R = 0x00;
 	GPIO_PORTM_DIR_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
+	GPIO_PORTN_DIR_R = 0x02;
 	GPIO_PORTP_DIR_R = 0x20; //PP5 
 	GPIO_PORTQ_DIR_R = 0x0F; //PQ0-P3 leds
 	
@@ -63,6 +68,7 @@ void GPIO_Init(void)
 	GPIO_PORTK_AFSEL_R = 0x00;
 	GPIO_PORTL_AFSEL_R = 0x00;
 	GPIO_PORTM_AFSEL_R = 0x00;
+	GPIO_PORTN_AFSEL_R = 0x00;
 	GPIO_PORTQ_AFSEL_R = 0x00;
 	GPIO_PORTP_AFSEL_R = 0x00;
 	
@@ -72,6 +78,7 @@ void GPIO_Init(void)
 	GPIO_PORTK_DEN_R = 0xFF; //PK0-PK7
 	GPIO_PORTL_DEN_R = 0xFF;
 	GPIO_PORTM_DEN_R = 0xFF; //PM7-PM4(Matricial)PM2-PM0(LCD)
+	GPIO_PORTN_DEN_R = 0x02;
 	GPIO_PORTP_DEN_R = 0x20; //PP5
 	GPIO_PORTQ_DEN_R = 0x0F; //PQ0-P3 leds
 	
@@ -114,6 +121,11 @@ void PortP_Output(uint32_t valor)
 void PortQ_Output(uint32_t valor)
 {
 	GPIO_PORTQ_DATA_R = valor; 
+}
+
+void PortN_Output(uint32_t valor)
+{
+	GPIO_PORTN_DATA_R = valor; 
 }
 
 void PortM_Output_LCD(uint32_t value)
@@ -174,4 +186,9 @@ uint32_t Return_PortP()
 uint32_t Return_PortQ()
 {
 	return GPIO_PORTQ_DATA_R;
+}
+
+uint32_t Return_PortN()
+{
+	return GPIO_PORTN_DATA_R;
 }

@@ -385,14 +385,14 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>startup.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\startup.s</FilePath>
-            </File>
-            <File>
               <FileName>utils.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\utils.s</FilePath>
+            </File>
+            <File>
+              <FileName>startup.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\startup.s</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -468,6 +468,26 @@
               <FileName>leds.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\leds.c</FilePath>
+            </File>
+            <File>
+              <FileName>ledBlinking.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ledBlinking.c</FilePath>
+            </File>
+            <File>
+              <FileName>ledBlinking.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ledBlinking.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\timer.h</FilePath>
             </File>
           </Files>
         </Group>
